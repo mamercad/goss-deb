@@ -36,4 +36,4 @@ jobs:
           Description: https://github.com/goss-org/goss
           EOF
           cp "goss-${{ matrix.os }}-${{ matrix.arch }}" "${build_dir}/usr/bin/goss"
-          dpkg-deb --build goss
+          dpkg-deb --build "${build_dir}"
