@@ -12,23 +12,26 @@ jobs:
     strategy:
       matrix:
         version: ["0.4.8"]
-        binary: ["goss-linux-amd64"]
+        os: ["linux"]
+        revision: ["1"]
+        arch: ["amd64"]
     steps:
       - name: "fetch"
         run: |
-          curl --location "https://github.com/goss-org/goss/releases/download/v${{ matrix.version }}/${{ matrix.binary }}" --output "${{ matrix.binary }}"
-          curl --location "https://github.com/goss-org/goss/releases/download/v${{ matrix.version }}/${{ matrix.binary }}.sha256" --output "${{ matrix.binary }}.sha256"
-          sha256sum --check "${{ matrix.binary }}.sha256"
+          curl --location "https://github.com/goss-org/goss/releases/download/v${{ matrix.version }}/goss-${{ matrix.os }}-${{ matrix.arch }}" --output "goss-${{ matrix.os }}-${{ matrix.arch }}"
+          curl --location "https://github.com/goss-org/goss/releases/download/v${{ matrix.version }}/goss-${{ matrix.os }}-${{ matrix.arch }}.sha256" --output "goss-${{ matrix.os }}-${{ matrix.arch }}.sha256"
+          sha256sum --check "goss-${{ matrix.os }}-${{ matrix.arch }}.sha256"
 
       - name: "build"
         run: |
-          mkdir -p goss/{DEBIAN,usr/bin}
-          cat >goss/DEBIAN/control <<EOF
+          build_dir="goss_${{ matrix.version }}-${{ matrix.revision }}_${{ matrix.arch }}"
+          mkdir -p "${build_dir}/{DEBIAN,usr/bin}"
+          cat >"${build_dir}/DEBIAN/control" <<EOF
           Package: goss
           Version: ${{ matrix.version }}
           Maintainer: Mark Mercado <mamercad@gmail.com>
           Architecture: all
           Description: https://github.com/goss-org/goss
           EOF
-          cp "${{ matrix.binary }}" goss/usr/bin/goss
+          cp "goss-${{ matrix.os }}-${{ matrix.arch }}" "${build_dir}/usr/bin/goss"
           dpkg-deb --build goss
