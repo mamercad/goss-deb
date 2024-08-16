@@ -40,7 +40,7 @@ jobs:
 
       - name: "test"
         run: |
-          sudo dpkg -i "goss_${{ matrix.version }}-${{ matrix.revision }}.deb"
+          sudo dpkg -i "goss_${{ matrix.version }}-${{ matrix.revision }}_${{ matrix.arch }}.deb"
           goss --version
           cat >goss.yaml <<EOF
           command:
