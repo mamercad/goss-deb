@@ -19,6 +19,7 @@ jobs:
       - name: "fetch"
         run: |
           curl --location "https://github.com/goss-org/goss/releases/download/v${{ matrix.version }}/goss-${{ matrix.os }}-${{ matrix.arch }}" --output "goss-${{ matrix.os }}-${{ matrix.arch }}"
+          chmod +rx "goss-${{ matrix.os }}-${{ matrix.arch }}"
           curl --location "https://github.com/goss-org/goss/releases/download/v${{ matrix.version }}/goss-${{ matrix.os }}-${{ matrix.arch }}.sha256" --output "goss-${{ matrix.os }}-${{ matrix.arch }}.sha256"
           sha256sum --check "goss-${{ matrix.os }}-${{ matrix.arch }}.sha256"
 
