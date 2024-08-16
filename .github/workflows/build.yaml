@@ -48,4 +48,4 @@ jobs:
             hostname:
               exit-status: 0
           EOF
-          goss validate --format documentation
+          goss validate --color --format documentation
