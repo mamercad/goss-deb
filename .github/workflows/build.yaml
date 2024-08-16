@@ -11,11 +11,24 @@ jobs:
     runs-on: "ubuntu-22.04"
     strategy:
       matrix:
-        version: ["v0.4.8"]
+        version: ["0.4.8"]
         binary: ["goss-linux-amd64"]
     steps:
       - name: "fetch"
         run: |
-          curl --location "https://github.com/goss-org/goss/releases/download/${{ matrix.version }}/${{ matrix.binary }}" --output "${{ matrix.binary }}"
-          curl --location "https://github.com/goss-org/goss/releases/download/${{ matrix.version }}/${{ matrix.binary }}.sha256" --output "${{ matrix.binary }}.sha256"
+          curl --location "https://github.com/goss-org/goss/releases/download/v${{ matrix.version }}/${{ matrix.binary }}" --output "${{ matrix.binary }}"
+          curl --location "https://github.com/goss-org/goss/releases/download/v${{ matrix.version }}/${{ matrix.binary }}.sha256" --output "${{ matrix.binary }}.sha256"
           sha256sum --check "${{ matrix.binary }}.sha256"
+
+      - name: "build"
+        run: |
+          mkdir -p goss/{DEBIAN,usr/bin}
+          cat >goss/DEBIAN/control <<EOF
+          Package: goss
+          Version: ${{ matrix.version }}
+          Maintainer: Mark Mercado <mamercad@gmail.com>
+          Architecture: all
+          Description: https://github.com/goss-org/goss
+          EOF
+          cp "${{ matrix.binary }}" goss/usr/bin/goss
+          dpkg-deb --build goss
