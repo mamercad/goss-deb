@@ -1,6 +1,6 @@
 ---
 name: "build"
-run-name: "${{ github.actor }} triggered ${{ github.workflow }}"
+run-name: "${{ github.workflow }} triggered by ${{ github.actor }}"
 
 on:
   push:
@@ -18,4 +18,4 @@ jobs:
         run: |
           curl --location "https://github.com/goss-org/goss/releases/download/${{ matrix.version }}/${{ matrix.binary }}" --output "${{ matrix.binary }}"
           curl --location "https://github.com/goss-org/goss/releases/download/${{ matrix.version }}/${{ matrix.binary }}.sha256" --output "${{ matrix.binary }}.sha256"
-          sha256sum --check "${{ matrix.binary.sha256 }}"
+          sha256sum --check "${{ matrix.binary }}.sha256"
