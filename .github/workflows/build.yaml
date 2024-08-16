@@ -37,3 +37,14 @@ jobs:
           EOF
           cp "goss-${{ matrix.os }}-${{ matrix.arch }}" "${build_dir}/usr/bin/goss"
           dpkg-deb --build "${build_dir}"
+
+      - name: "test"
+        run: |
+          sudo dpkg -i "goss_${{ matrix.version }}-${{ matrix.revision }}.deb"
+          goss --version
+          cat >goss.yaml <<EOF
+          command:
+            hostname:
+              exit-status: 0
+          EOF
+          goss validate --format documentation
