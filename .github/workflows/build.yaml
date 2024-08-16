@@ -49,3 +49,9 @@ jobs:
               exit-status: 0
           EOF
           goss validate --color --format documentation
+
+      - name: "artifact"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "goss_${{ matrix.version }}-${{ matrix.revision }}_${{ matrix.arch }}.deb"
+          path: "goss_${{ matrix.version }}-${{ matrix.revision }}_${{ matrix.arch }}.deb"
