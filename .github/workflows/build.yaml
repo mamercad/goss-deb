@@ -25,7 +25,9 @@ jobs:
       - name: "build"
         run: |
           build_dir="goss_${{ matrix.version }}-${{ matrix.revision }}_${{ matrix.arch }}"
-          mkdir -p "${build_dir}/{DEBIAN,usr/bin}"
+          mkdir "${build_dir}"
+          mkdir "${build_dir}/DEBIAN"
+          mkdir -p "${build_dir}/usr/bin"
           cat >"${build_dir}/DEBIAN/control" <<EOF
           Package: goss
           Version: ${{ matrix.version }}
