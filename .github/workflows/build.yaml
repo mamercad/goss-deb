@@ -11,8 +11,8 @@ jobs:
     runs-on: "ubuntu-22.04"
     strategy:
       matrix:
-        - version: ["v0.4.8"]
-          binary: ["goss-linux-amd64"]
+        - version: "v0.4.8"
+          binary: "goss-linux-amd64"
     steps:
       - name: "fetch"
         run: |
